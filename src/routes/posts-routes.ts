@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { postsHandlers, error, ErrorType } from "../repositories/posts-repository";
 import { body } from "express-validator";
 import { inputValidationMiddleware } from "../middleware/inputValidation";
-
+import { checkCredentials } from "../middleware/auth-middleware";
 
 export const postsRouter = Router();
 
@@ -33,6 +33,7 @@ postsRouter.get("/", (req: Request, res: Response) => {
 
 postsRouter.post(
   "/",
+  checkCredentials,
   titleValidation,
   shortDescriptionValidation,
   contentValidation,
@@ -42,18 +43,18 @@ postsRouter.post(
 
   (req: Request, res: Response) => {
     const newPost = postsHandlers.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId);
-    newPost? res.status(201).json(newPost):res.sendStatus(400);
+    newPost ? res.status(201).json(newPost) : res.sendStatus(400);
   }
 );
 
 postsRouter.get("/:id", (req: Request, res: Response) => {
   const post = postsHandlers.getPost(+req.params.id);
-  post? res.json(post): res.sendStatus(404)
+  post ? res.json(post) : res.sendStatus(404);
 });
 
 postsRouter.put(
   "/:id",
-
+  checkCredentials,
   titleValidation,
   shortDescriptionValidation,
   contentValidation,
@@ -69,17 +70,15 @@ postsRouter.put(
       req.body.content,
       req.body.bloggerId
     );
-    if(isUpdated===0){
-      
-      res.sendStatus(400)
-    }else{
+    if (isUpdated === 0) {
+      res.sendStatus(400);
+    } else {
       isUpdated ? res.status(204).json(isUpdated) : res.sendStatus(404);
     }
-    
   }
 );
 
-postsRouter.delete("/:id", (req: Request, res: Response) => {
+postsRouter.delete("/:id", checkCredentials, (req: Request, res: Response) => {
   const isDeleted = postsHandlers.deletePost(+req.params.id);
   isDeleted ? res.sendStatus(204) : res.sendStatus(404);
 });
