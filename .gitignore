@@ -1,0 +1,6 @@
+node_modules
+dist
+.vscode
+front
+mish.ts
+notes.ts
