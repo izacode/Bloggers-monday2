@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { bloggersRepository, error } from "../repositories/bloggers-repository";
 import { body, param } from "express-validator";
-import { inputValidationMiddleware,youtubeUrlValidation } from "../middleware/inputValidation";
+import { inputValidationMiddleware,nameValidation,youtubeUrlValidation } from "../middleware/inputValidation";
 import { checkCredentials } from "../middleware/auth-middleware";
 
 
@@ -11,7 +11,7 @@ const bloggerIDValidation = param("id")
   .isInt({ gt: 0 })
   .withMessage("Invalid ID, it shoud be a number greater then 0,without symbols or letters");
 
-const nameValidation = body("name").trim().isLength({ min: 1 }).withMessage("blogger name should contain at least one character");
+
 
 bloggersRouter.get("/",  (req: Request, res: Response) => {
   const bloggers = bloggersRepository.getAllBloggers();

@@ -10,15 +10,15 @@ export const postsRouter = Router();
 
 const titleValidation = body("title")
   .trim()
-  .isLength({ min: 1 })
-  .withMessage("Title is missing,please add, it should contain at least one character");
+  .isLength({ min: 1,max: 30 })
+  .withMessage("Title should contain at least one character and up to 30");
 const shortDescriptionValidation = body("shortDescription")
   .trim()
-  .isLength({ min: 1 })
-  .withMessage("ShortDescription is missing,it should contain at least one character");
+  .isLength({ min: 1, max: 100 })
+  .withMessage("ShortDescription should contain at least one character and up to 100");
 const contentValidation = body("content")
   .trim()
-  .isLength({ min: 1 })
+  .isLength({ min: 1,max:1000 })
   .withMessage("Content is missing,it should contain at least one character");
 const bloggerIDValidation = body("bloggerId")
   .isInt({ gt: 0 })
