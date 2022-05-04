@@ -38,7 +38,6 @@ bloggersRouter.get("/:id", (req: Request, res: Response) => {
 bloggersRouter.put(
   "/:id",
   checkCredentials,
-  bloggerIDValidation,
   youtubeUrlValidation,
   nameValidation,
   inputValidationMiddleware,
