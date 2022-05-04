@@ -80,5 +80,5 @@ postsRouter.put(
 
 postsRouter.delete("/:id", checkCredentials, (req: Request, res: Response) => {
   const isDeleted = postsHandlers.deletePost(+req.params.id);
-  isDeleted ? res.sendStatus(204) : res.sendStatus(404);
+  isDeleted ? res.sendStatus(204) : res.sendStatus(400);
 });
