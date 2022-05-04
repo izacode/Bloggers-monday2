@@ -10,7 +10,7 @@ export const postsRouter = Router();
 
 const titleValidation = body("title")
   .trim()
-  .isLength({ min: 1,max: 30 })
+  .isLength({ min: 1, max: 30 })
   .withMessage("Title should contain at least one character and up to 30");
 const shortDescriptionValidation = body("shortDescription")
   .trim()
@@ -18,10 +18,10 @@ const shortDescriptionValidation = body("shortDescription")
   .withMessage("ShortDescription should contain at least one character and up to 100");
 const contentValidation = body("content")
   .trim()
-  .isLength({ min: 1,max:1000 })
+  .isLength({ min: 1, max: 1000 })
   .withMessage("Content is missing,it should contain at least one character");
 const bloggerIDValidation = body("bloggerId")
-  .isInt({ gt: 0 })
+  .isInt({ gt: 0, lt: 100 })
   .withMessage("Invalid ID, it shoud be a number greater then 0,without symbols or letters");
 
 // Routes ===========================================================================
@@ -80,5 +80,5 @@ postsRouter.put(
 
 postsRouter.delete("/:id", checkCredentials, (req: Request, res: Response) => {
   const isDeleted = postsHandlers.deletePost(+req.params.id);
-  isDeleted ? res.sendStatus(204) : res.sendStatus(400);
+  isDeleted ? res.sendStatus(204) : res.sendStatus(404);
 });
